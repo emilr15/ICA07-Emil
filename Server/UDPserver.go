@@ -2,28 +2,34 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net"
-	"strconv"
+	"os"
 )
+
+func CheckError(err error) {
+	if err != nil {
+		fmt.Println("Error: ", err)
+		os.Exit(0)
+	}
+}
 
 // listen to incoming udp packets
 func main() {
-	packet, err := net.ListenPacket("udp", "158.39.77.29:8010")
-	if err != nil {
-		log.Fatal(err)
+	ServerAddr, err := net.ResolveUDPAddr("udp", ":8010")
+	CheckError(err)
+
+	ServerConn, err := net.ListenUDP("udp", ServerAddr)
+	CheckError(err)
+	defer ServerConn.Close()
+
+	buf := make([]byte, 1024)
+
+	for {
+		n, addr, err := ServerConn.ReadFromUDP(buf)
+		fmt.Println("Received ", string(buf[0:n]), " from ", addr)
+
+		if err != nil {
+			fmt.Println("Error: ", err)
+		}
 	}
-	defer packet.Close()
-
-	//simple read
-	buffer := make([]byte, 1024)
-	n, addr, err := packet.ReadFrom(buffer)
-
-	bs := []byte(strconv.Itoa(n))
-	fmt.Println(bs)
-
-	//simple write
-	packet.WriteTo([]byte("Hello from client"), addr)
-	packet.WriteTo((bs), addr)
-
 }
