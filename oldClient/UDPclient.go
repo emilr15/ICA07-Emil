@@ -9,7 +9,7 @@ import (
 //Koble til UDP
 
 func main() {
-	kobling, err := net.ListenUDP(":8010")
+	kobling, err := net.Dial("udp", "158.39.77.29:8010")
 	if err != nil {
 		log.Fatal(err)
 	}

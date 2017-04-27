@@ -17,7 +17,7 @@ func main() {
 	ServerAddr, err := net.ResolveUDPAddr("udp", "158.39.77.29:8010")
 	CheckError(err)
 
-	LocalAddr, err := net.ResolveUDPAddr("udp", "158.39.77.29:8010")
+	LocalAddr, err := net.ResolveUDPAddr("udp", "158.39.77.29:0")
 	CheckError(err)
 
 	Conn, err := net.DialUDP("udp", LocalAddr, ServerAddr)
