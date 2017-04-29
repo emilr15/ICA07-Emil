@@ -13,13 +13,13 @@ const (
 )
 
 func main() {
-	// Listen for incoming connections.
+	// Hører på om det er noe innkommende data.
 	l, err := net.Listen(CONN_TYPE, CONN_HOST+":"+CONN_PORT)
 	if err != nil {
-		fmt.Println("Error listening:", err.Error())
+		fmt.Println("Error listening: ", err.Error())
 		os.Exit(1)
 	}
-	// Close the listener when the application closes.
+	// Stenger listeneren når programmet avsluttes.
 	defer l.Close()
 	fmt.Println("Listening on " + CONN_HOST + ":" + CONN_PORT)
 	for {
@@ -46,6 +46,6 @@ func handleRequest(conn net.Conn) {
 	fmt.Printf("%v", reqLen)
 	// Send a response back to person contacting us.
 	conn.Write([]byte("Message received."))
-	// Close the connection when you're done with it.
+	// Stenger forbindelsen
 	conn.Close()
 }
